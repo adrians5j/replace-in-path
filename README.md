@@ -15,3 +15,27 @@ Or if you prefer yarn:
 ```
 yarn add replace-in-path --dev
 ```
+
+## Quick Example:
+
+```ts
+const codeReplacements = [
+    {
+        find: `const { security } = this.context;`,
+        replaceWith: `// const { security } = this.context;`,
+    },
+    {
+        find: "const identity = await security.getIdentity",
+        replaceWith: "// const identity = await security.getIdentity",
+    },
+    {
+        find: new RegExp("createdBy: identity.*},", "gms"),
+        replaceWith: "/* $& */",
+    },
+];
+
+replaceInPath(
+    path.join(newCodePath, "/resolvers/TargetDataModelsMutation.ts"),
+    codeReplacements
+);
+```
