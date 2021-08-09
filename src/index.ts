@@ -1,10 +1,10 @@
-const globby = require("globby");
-const fs = require("fs");
+import globby from 'globby';
+import fs from 'fs';
 
 type PathParam = string;
 
 type Replacement = {
-    find: string;
+    find: string | RegExp;
     replaceWith: string;
 };
 
@@ -23,7 +23,11 @@ export const replaceInPath = (path: PathParam, replacement: ReplaceInPathParam) 
 
         for (let j = 0; j < replacements.length; j++) {
             const currentReplacement = replacements[j];
-            const findRegex = new RegExp(currentReplacement.find, "g");
+            const findRegex =
+                typeof currentReplacement.find === "string"
+                    ? new RegExp(currentReplacement.find, "g")
+                    : currentReplacement.find;
+
             file = file.replace(findRegex, currentReplacement.replaceWith);
         }
 
